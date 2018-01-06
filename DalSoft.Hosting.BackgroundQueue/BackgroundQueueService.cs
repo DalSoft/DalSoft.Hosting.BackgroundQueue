@@ -16,7 +16,7 @@ namespace DalSoft.Hosting.BackgroundQueue
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                await _backgroundQueue.Dequeue();
+                await _backgroundQueue.Dequeue(cancellationToken);
             }
         }
     }

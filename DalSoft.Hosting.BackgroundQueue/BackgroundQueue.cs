@@ -9,16 +9,18 @@ namespace DalSoft.Hosting.BackgroundQueue
     {
         private readonly Action<Exception> _onException;
         private readonly ConcurrentQueue<Func<Task>> _taskQueue = new ConcurrentQueue<Func<Task>>();
+        private readonly int _maxConcurrentCount;
+        private readonly int _millisecondsToWaitBeforePickingUpTask;
         private int _concurrentCount;
-
-        public int MaxConcurrentCount { get; private set; }
-        public int ThrottlingInMilliseconds { get; private set; }
-
-        public BackgroundQueue(Action<Exception> onException, int maxConcurrentCount, int throttlingInMilliseconds)
+        
+        public BackgroundQueue(Action<Exception> onException, int maxConcurrentCount, int millisecondsToWaitBeforePickingUpTask)
         {
-            _onException = onException;
-            MaxConcurrentCount = maxConcurrentCount;
-            ThrottlingInMilliseconds = throttlingInMilliseconds;
+            if (millisecondsToWaitBeforePickingUpTask < 500) throw new ArgumentException("< 500 Milliseconds will eat the CPU", nameof(millisecondsToWaitBeforePickingUpTask));
+            if (maxConcurrentCount < 1) throw new ArgumentException("maxConcurrentCount must be at least 1", nameof(maxConcurrentCount));
+
+            _onException = onException ?? (exception => { }); 
+            _maxConcurrentCount = maxConcurrentCount;
+            _millisecondsToWaitBeforePickingUpTask = millisecondsToWaitBeforePickingUpTask;
         }
 
         public void Enqueue(Func<Task> task)
@@ -26,12 +28,14 @@ namespace DalSoft.Hosting.BackgroundQueue
             _taskQueue.Enqueue(task);
         }
 
-        internal Task Dequeue()
+        internal Task Dequeue(CancellationToken cancellationToken)
         {
             return Task.Run(async () =>
             {
-                if ( !(_taskQueue.Count > 0 && MaxConcurrentCount > _concurrentCount) )
-                    return;
+                if (_taskQueue.Count==0 || _concurrentCount > _maxConcurrentCount)
+                {
+                    await Task.Delay(_millisecondsToWaitBeforePickingUpTask, cancellationToken); ;
+                }
 
                 if (_taskQueue.TryDequeue(out var nextTaskAction))
                 {
@@ -46,13 +50,10 @@ namespace DalSoft.Hosting.BackgroundQueue
                     }
                     finally
                     {
-                        if (ThrottlingInMilliseconds > 0)
-                            await Task.Delay(ThrottlingInMilliseconds);
-
                         Interlocked.Decrement(ref _concurrentCount);
                     }
                 }
-            });
+            }, cancellationToken);
         }
     }
 }

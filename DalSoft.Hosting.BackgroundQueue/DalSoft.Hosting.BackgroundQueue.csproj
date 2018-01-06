@@ -5,13 +5,13 @@
     <AssemblyName>DalSoft.Hosting.BackgroundQueue</AssemblyName>
     <IsPackable>true</IsPackable>
     <PackageId>DalSoft.Hosting.BackgroundQueue</PackageId>
-    <PackageVersion>1.0.0</PackageVersion>
-    <PackageReleaseNotes>WIP</PackageReleaseNotes>
+    <PackageVersion>1.0.2</PackageVersion>
+    <PackageReleaseNotes></PackageReleaseNotes>
     <Authors>DalSoft</Authors>
-    <Description></Description>
-    <PackageTags></PackageTags>
+    <Description>.NET Core replacement for HostingEnvironment.QueueBackgroundWorkItem using IHostedService</Description>
+    <PackageTags>asp.net core webbackgrounder environment.queuebackgroundworkitem</PackageTags>
     <Copyright></Copyright>
-    <RepositoryUrl></RepositoryUrl>
+    <RepositoryUrl>https://github.com/DalSoft/DalSoft.Hosting.BackgroundQueue</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/DalSoft/DalSoft.Hosting.BackgroundQueue/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/DalSoft/DalSoft.Hosting.BackgroundQueue</PackageProjectUrl>
     <PackageIconUrl>http://dalsoft.co.uk/images/icon.png</PackageIconUrl>
