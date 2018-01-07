@@ -16,7 +16,10 @@ namespace DalSoft.Hosting.BackgroundQueue
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                await _backgroundQueue.Dequeue(cancellationToken);
+                if (_backgroundQueue.TaskQueue.Count == 0 || _backgroundQueue.ConcurrentCount > _backgroundQueue.MaxConcurrentCount)
+                    await Task.Delay(_backgroundQueue.MillisecondsToWaitBeforePickingUpTask, cancellationToken);
+                else
+                    await _backgroundQueue.Dequeue(cancellationToken);
             }
         }
     }

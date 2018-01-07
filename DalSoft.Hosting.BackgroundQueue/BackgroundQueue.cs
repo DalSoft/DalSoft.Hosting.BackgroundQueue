@@ -8,52 +8,47 @@ namespace DalSoft.Hosting.BackgroundQueue
     public class BackgroundQueue
     {
         private readonly Action<Exception> _onException;
-        private readonly ConcurrentQueue<Func<Task>> _taskQueue = new ConcurrentQueue<Func<Task>>();
-        private readonly int _maxConcurrentCount;
-        private readonly int _millisecondsToWaitBeforePickingUpTask;
-        private int _concurrentCount;
-        
+
+        internal readonly ConcurrentQueue<Func<CancellationToken, Task>> TaskQueue = new ConcurrentQueue<Func<CancellationToken, Task>>();
+        internal readonly int MaxConcurrentCount;
+        internal readonly int MillisecondsToWaitBeforePickingUpTask;
+        internal int ConcurrentCount;
+
         public BackgroundQueue(Action<Exception> onException, int maxConcurrentCount, int millisecondsToWaitBeforePickingUpTask)
         {
-            if (millisecondsToWaitBeforePickingUpTask < 500) throw new ArgumentException("< 500 Milliseconds will eat the CPU", nameof(millisecondsToWaitBeforePickingUpTask));
+            //if (millisecondsToWaitBeforePickingUpTask < 500) throw new ArgumentException("< 500 Milliseconds will eat the CPU", nameof(millisecondsToWaitBeforePickingUpTask));
             if (maxConcurrentCount < 1) throw new ArgumentException("maxConcurrentCount must be at least 1", nameof(maxConcurrentCount));
 
             _onException = onException ?? (exception => { }); 
-            _maxConcurrentCount = maxConcurrentCount;
-            _millisecondsToWaitBeforePickingUpTask = millisecondsToWaitBeforePickingUpTask;
+            MaxConcurrentCount = maxConcurrentCount;
+            MillisecondsToWaitBeforePickingUpTask = millisecondsToWaitBeforePickingUpTask;
         }
 
-        public void Enqueue(Func<Task> task)
+        public void Enqueue(Func<CancellationToken, Task> task)
         {
-            _taskQueue.Enqueue(task);
+            TaskQueue.Enqueue(task);
         }
 
         internal Task Dequeue(CancellationToken cancellationToken)
         {
-            return Task.Run(async () =>
+            if (TaskQueue.TryDequeue(out var nextTaskAction))
             {
-                if (_taskQueue.Count==0 || _concurrentCount > _maxConcurrentCount)
+                Interlocked.Increment(ref ConcurrentCount);
+                try
                 {
-                    await Task.Delay(_millisecondsToWaitBeforePickingUpTask, cancellationToken); ;
+                    return nextTaskAction(cancellationToken);
                 }
+                catch (Exception e)
+                {
+                    _onException(e);
+                }
+                finally
+                {
+                    Interlocked.Decrement(ref ConcurrentCount);
+                }
+            }
 
-                if (_taskQueue.TryDequeue(out var nextTaskAction))
-                {
-                    Interlocked.Increment(ref _concurrentCount);
-                    try
-                    {
-                        await nextTaskAction();
-                    }
-                    catch (Exception e)
-                    {
-                        _onException(e);
-                    }
-                    finally
-                    {
-                        Interlocked.Decrement(ref _concurrentCount);
-                    }
-                }
-            }, cancellationToken);
+            return Task.CompletedTask;
         }
     }
 }

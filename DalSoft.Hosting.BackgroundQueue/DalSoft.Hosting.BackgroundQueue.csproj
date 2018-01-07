@@ -5,10 +5,10 @@
     <AssemblyName>DalSoft.Hosting.BackgroundQueue</AssemblyName>
     <IsPackable>true</IsPackable>
     <PackageId>DalSoft.Hosting.BackgroundQueue</PackageId>
-    <PackageVersion>1.0.2</PackageVersion>
-    <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageVersion>1.0.3</PackageVersion>
+    <PackageReleaseNotes>Removed superfluous Task.Run and now pass the cancellation token to the background task.</PackageReleaseNotes>
     <Authors>DalSoft</Authors>
-    <Description>.NET Core replacement for HostingEnvironment.QueueBackgroundWorkItem using IHostedService</Description>
+    <Description>DalSoft.Hosting.BackgroundQueue is a very lightweight .NET Core replacement for HostingEnvironment.QueueBackgroundWorkItem using IHostedService</Description>
     <PackageTags>asp.net core webbackgrounder environment.queuebackgroundworkitem</PackageTags>
     <Copyright></Copyright>
     <RepositoryUrl>https://github.com/DalSoft/DalSoft.Hosting.BackgroundQueue</RepositoryUrl>
