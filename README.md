@@ -1,5 +1,7 @@
 # DalSoft.Hosting.BackgroundQueue
 
+> This is used in production environments, however the test coverage isn't where it needs to be, should you run into a problem please raise an issue
+
 DalSoft.Hosting.BackgroundQueue is a very lightweight .NET Core replacement for [HostingEnvironment.QueueBackgroundWorkItem](https://www.hanselman.com/blog/HowToRunBackgroundTasksInASPNET.aspx) it has no extra dependancies!
 
 For those of you that haven't used HostingEnvironment.QueueBackgroundWorkItem it was a simple way in .NET 4.5.2 to safely run a background task on a webhost, for example sending an email when a user registers. 
