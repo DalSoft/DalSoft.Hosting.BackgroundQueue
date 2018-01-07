@@ -55,7 +55,7 @@ public EmailController(BackgroundQueue backgroundQueue)
 [HttpPost, Route("/")]
 public IActionResult SendEmail([FromBody]emailRequest)
 {
-   _backgroundQueue.Enqueue(async () =>
+   _backgroundQueue.Enqueue(async cancellationToken =>
    {
       await _smtp.SendMailAsync(emailRequest.From, emailRequest.To, request.Body);
    });
