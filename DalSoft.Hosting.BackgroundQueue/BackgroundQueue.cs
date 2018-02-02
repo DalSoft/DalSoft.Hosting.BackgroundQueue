@@ -29,14 +29,14 @@ namespace DalSoft.Hosting.BackgroundQueue
             TaskQueue.Enqueue(task);
         }
 
-        internal Task Dequeue(CancellationToken cancellationToken)
+        internal async Task Dequeue(CancellationToken cancellationToken)
         {
             if (TaskQueue.TryDequeue(out var nextTaskAction))
             {
                 Interlocked.Increment(ref ConcurrentCount);
                 try
                 {
-                    return nextTaskAction(cancellationToken);
+                    await nextTaskAction(cancellationToken);
                 }
                 catch (Exception e)
                 {
@@ -48,7 +48,7 @@ namespace DalSoft.Hosting.BackgroundQueue
                 }
             }
 
-            return Task.CompletedTask;
+            await Task.CompletedTask;
         }
     }
 }
