@@ -7,21 +7,23 @@ namespace DalSoft.Hosting.BackgroundQueue
 {
     public class BackgroundQueue
     {
-        private readonly Action<Exception> _onException;
+        private readonly Action<IServiceProvider, Exception> _onException;
 
         internal readonly ConcurrentQueue<Func<CancellationToken, Task>> TaskQueue = new ConcurrentQueue<Func<CancellationToken, Task>>();
         internal readonly int MaxConcurrentCount;
         internal readonly int MillisecondsToWaitBeforePickingUpTask;
+        private readonly IServiceProvider _serivceProvider;
         internal int ConcurrentCount;
 
-        public BackgroundQueue(Action<Exception> onException, int maxConcurrentCount, int millisecondsToWaitBeforePickingUpTask)
+        public BackgroundQueue(Action<IServiceProvider, Exception> onException, int maxConcurrentCount, int millisecondsToWaitBeforePickingUpTask, IServiceProvider serivceProvider)
         {
             //if (millisecondsToWaitBeforePickingUpTask < 500) throw new ArgumentException("< 500 Milliseconds will eat the CPU", nameof(millisecondsToWaitBeforePickingUpTask));
             if (maxConcurrentCount < 1) throw new ArgumentException("maxConcurrentCount must be at least 1", nameof(maxConcurrentCount));
 
-            _onException = onException ?? (exception => { }); 
+            _onException = onException ?? ((serviceProvider, exception)  => { }); 
             MaxConcurrentCount = maxConcurrentCount;
             MillisecondsToWaitBeforePickingUpTask = millisecondsToWaitBeforePickingUpTask;
+            _serivceProvider = serivceProvider;
         }
 
         public void Enqueue(Func<CancellationToken, Task> task)
@@ -40,7 +42,7 @@ namespace DalSoft.Hosting.BackgroundQueue
                 }
                 catch (Exception e)
                 {
-                    _onException(e);
+                    _onException(_serivceProvider, e);
                 }
                 finally
                 {
