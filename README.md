@@ -1,3 +1,5 @@
+> **Update December 2019** ASP.NET Core 3.1 supports background tasks using [Microsoft.NET.Sdk.Worker](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services?view=aspnetcore-3.1&tabs=visual-studio) it's excellent and works really well.
+
 # DalSoft.Hosting.BackgroundQueue
 
 > This is used in production environments, however the test coverage isn't where it needs to be, should you run into a problem please raise an issue
