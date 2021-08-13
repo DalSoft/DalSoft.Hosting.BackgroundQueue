@@ -1,5 +1,5 @@
 > **Update August 2021** Although [Microsoft.NET.Sdk.Worker](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services?view=aspnetcore-5.0&tabs=visual-studio) works well, you end up with a lot of bolierplate code and have to solve things like exception handling and concurrency. [MS are leaving it up to the end user](https://github.com/dotnet/extensions/issues/805) to decide how to implement (which makes sense rather than trying to implement every scenario). 
-For me I need something akin to HostingEnvironment.QueueBackgroundWorkItem, so I will continue to support and improve this package.
+For me I need something simple akin to HostingEnvironment.QueueBackgroundWorkItem, so I will continue to support and improve this package.
 
 # DalSoft.Hosting.BackgroundQueue
 
