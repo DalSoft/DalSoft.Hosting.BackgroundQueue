@@ -1,26 +1,35 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <VersionPrefix>1.1.0</VersionPrefix>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>DalSoft.Hosting.BackgroundQueue</AssemblyName>
-    <IsPackable>true</IsPackable>
     <PackageId>DalSoft.Hosting.BackgroundQueue</PackageId>
-    <PackageVersion>1.0.4</PackageVersion>
-    <PackageReleaseNotes>Removed superfluous Task.Run and now pass the cancellation token to the background task.</PackageReleaseNotes>
-    <Authors>DalSoft</Authors>
+    <Title>DalSoft.Hosting.BackgroundQueue - lightweight .NET Core replacement for HostingEnvironment.QueueBackgroundWorkItem</Title>
     <Description>DalSoft.Hosting.BackgroundQueue is a very lightweight .NET Core replacement for HostingEnvironment.QueueBackgroundWorkItem using IHostedService</Description>
+    <Copyright>DalSoft Ltd</Copyright>
     <PackageTags>asp.net core webbackgrounder environment.queuebackgroundworkitem IHostedService IHost IWebHost</PackageTags>
-    <Copyright></Copyright>
-    <RepositoryUrl>https://github.com/DalSoft/DalSoft.Hosting.BackgroundQueue</RepositoryUrl>
-    <PackageLicenseUrl>https://github.com/DalSoft/DalSoft.Hosting.BackgroundQueue/blob/master/LICENSE</PackageLicenseUrl>
+    <Owners>DalSoft</Owners>
+    <Authors>DalSoft, JonasBr68</Authors>
+    <PackageReleaseNotes>Added fix to run more than one task concurrently.</PackageReleaseNotes>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/DalSoft/DalSoft.Hosting.BackgroundQueue</PackageProjectUrl>
-    <PackageIconUrl>http://dalsoft.co.uk/images/icon.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/DalSoft/DalSoft.Hosting.BackgroundQueue</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="2.0.0" />
+    <None Include="Assets\icon.png" Pack="true" PackagePath="\"/>
+    <None Include="Assets\LICENSE" Pack="true" PackagePath="\"/>
+    <None Include="../README.md" Pack="true" PackagePath="\"/>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>DalSoft.Hosting.BackgroundQueue.Test</_Parameter1>
+    </AssemblyAttribute>
   </ItemGroup>
   
 </Project>

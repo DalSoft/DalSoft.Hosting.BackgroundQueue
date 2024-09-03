@@ -5,14 +5,19 @@ using System.Threading.Tasks;
 
 namespace DalSoft.Hosting.BackgroundQueue
 {
-    public class BackgroundQueue
+    public class BackgroundQueue : IBackgroundQueue
     {
         private readonly Action<Exception> _onException;
 
-        internal readonly ConcurrentQueue<Func<CancellationToken, Task>> TaskQueue = new ConcurrentQueue<Func<CancellationToken, Task>>();
-        internal readonly int MaxConcurrentCount;
-        internal readonly int MillisecondsToWaitBeforePickingUpTask;
-        internal int ConcurrentCount;
+        private readonly ConcurrentQueue<Func<CancellationToken, Task>> _taskQueue = new ConcurrentQueue<Func<CancellationToken, Task>>();
+        public int MaxConcurrentCount { get; }
+        public int MillisecondsToWaitBeforePickingUpTask { get; }
+
+        public int Count => _taskQueue.Count;
+
+        public int ConcurrentCount => _concurrentCount;
+
+        private int _concurrentCount;
 
         public BackgroundQueue(Action<Exception> onException, int maxConcurrentCount, int millisecondsToWaitBeforePickingUpTask)
         {
@@ -26,14 +31,14 @@ namespace DalSoft.Hosting.BackgroundQueue
 
         public void Enqueue(Func<CancellationToken, Task> task)
         {
-            TaskQueue.Enqueue(task);
+            _taskQueue.Enqueue(task);
         }
 
-        internal async Task Dequeue(CancellationToken cancellationToken)
+        public async Task Dequeue(CancellationToken cancellationToken)
         {
-            if (TaskQueue.TryDequeue(out var nextTaskAction))
+            if (_taskQueue.TryDequeue(out var nextTaskAction))
             {
-                Interlocked.Increment(ref ConcurrentCount);
+                Interlocked.Increment(ref _concurrentCount);
                 try
                 {
                     await nextTaskAction(cancellationToken);
@@ -44,7 +49,7 @@ namespace DalSoft.Hosting.BackgroundQueue
                 }
                 finally
                 {
-                    Interlocked.Decrement(ref ConcurrentCount);
+                    Interlocked.Decrement(ref _concurrentCount);
                 }
             }
 

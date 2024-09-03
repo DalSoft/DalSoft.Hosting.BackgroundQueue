@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27004.2000
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalSoft.Hosting.BackgroundQueue", "DalSoft.Hosting.BackgroundQueue\DalSoft.Hosting.BackgroundQueue.csproj", "{CC5BCB5D-506A-4AC2-BD71-9FF329B17230}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DalSoft.Hosting.BackgroundQueue.Test", "DalSoft.Hosting.BackgroundQueue.Test\DalSoft.Hosting.BackgroundQueue.Test.csproj", "{91F4AEC4-5818-441C-8C47-92F64C9CF1C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{CC5BCB5D-506A-4AC2-BD71-9FF329B17230}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC5BCB5D-506A-4AC2-BD71-9FF329B17230}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC5BCB5D-506A-4AC2-BD71-9FF329B17230}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91F4AEC4-5818-441C-8C47-92F64C9CF1C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91F4AEC4-5818-441C-8C47-92F64C9CF1C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91F4AEC4-5818-441C-8C47-92F64C9CF1C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91F4AEC4-5818-441C-8C47-92F64C9CF1C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

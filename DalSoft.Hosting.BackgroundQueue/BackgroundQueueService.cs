@@ -1,13 +1,14 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DalSoft.Hosting.BackgroundQueue
 {
     public class BackgroundQueueService : HostedService
     {
-        private readonly BackgroundQueue _backgroundQueue;
+        private readonly IBackgroundQueue _backgroundQueue;
 
-        public BackgroundQueueService(BackgroundQueue backgroundQueue)
+        public BackgroundQueueService(IBackgroundQueue backgroundQueue)
         {
             _backgroundQueue = backgroundQueue;
         }
@@ -16,10 +17,19 @@ namespace DalSoft.Hosting.BackgroundQueue
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                if (_backgroundQueue.TaskQueue.Count == 0 || _backgroundQueue.ConcurrentCount > _backgroundQueue.MaxConcurrentCount)
+                if (_backgroundQueue.Count == 0 || _backgroundQueue.ConcurrentCount > _backgroundQueue.MaxConcurrentCount)
+                {
                     await Task.Delay(_backgroundQueue.MillisecondsToWaitBeforePickingUpTask, cancellationToken);
+                }
                 else
-                    await _backgroundQueue.Dequeue(cancellationToken);
+                {
+                    var concurrentTasks = new List<Task>();
+                    while (_backgroundQueue.Count > 0 && _backgroundQueue.ConcurrentCount <= _backgroundQueue.MaxConcurrentCount)
+                    {
+                        concurrentTasks.Add(_backgroundQueue.Dequeue(cancellationToken));
+                    }
+                    await Task.WhenAll(concurrentTasks);
+                }
             }
         }
     }

@@ -1,23 +1,23 @@
-### `If you find this repo / package useful all I ask is you please star it.`
+### `If you find this repo / package useful all I ask is you please star it ⭐`
 
 > **Update August 2021** Although [Microsoft.NET.Sdk.Worker](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services?view=aspnetcore-5.0&tabs=visual-studio) works well, you end up with a lot of bolierplate code and have to solve things like exception handling and concurrency. [MS are leaving it up to the end user](https://github.com/dotnet/extensions/issues/805) to decide how to implement (which makes sense rather than trying to implement every scenario). 
 For me I need something simple akin to HostingEnvironment.QueueBackgroundWorkItem, so I will continue to support and improve this package.
 
 # DalSoft.Hosting.BackgroundQueue
 
-> This is used in production environments, however the test coverage isn't where it needs to be, should you run into a problem please raise an issue
+> This is used in production environments however, the test coverage isn't where it needs to be. Should you run into a problem please raise an issue.
 
-DalSoft.Hosting.BackgroundQueue is a very lightweight .NET Core replacement for [HostingEnvironment.QueueBackgroundWorkItem](https://www.hanselman.com/blog/HowToRunBackgroundTasksInASPNET.aspx) it has no extra dependancies!
+DalSoft.Hosting.BackgroundQueue is a very lightweight .NET Core replacement for [HostingEnvironment.QueueBackgroundWorkItem](https://www.hanselman.com/blog/HowToRunBackgroundTasksInASPNET.aspx) it has no extra dependencies!
 
-For those of you that haven't used HostingEnvironment.QueueBackgroundWorkItem it was a simple way in .NET 4.5.2 to safely run a background task on a webhost, for example sending an email when a user registers. 
+For those of you that haven't used HostingEnvironment.QueueBackgroundWorkItem it was a simple way in .NET 4.5.2 to safely run a background task on a webhost, for example, sending an email when a user registers. 
 
-Yes there are loads of  good options (hangfire, Azure Web Jobs/Functions) for doing this, but nothing in ASP.NET Core to replace the simplicity of the classic one liner ```HostingEnvironment.QueueBackgroundWorkItem(cancellationToken => DoWork())```.
+Yes there are loads of good options (hangfire, Azure Web Jobs/Functions) for doing this, but nothing in ASP.NET Core to replace the simplicity of the classic one-liner ```HostingEnvironment.QueueBackgroundWorkItem(cancellationToken => DoWork())```.
 
 ## Supported Platforms
 
-DalSoft.Hosting.BackgroundQueue uses [IHostedService](https://blogs.msdn.microsoft.com/cesardelatorre/2017/11/18/implementing-background-tasks-in-microservices-with-ihostedservice-and-the-backgroundservice-class-net-core-2-x/) and works with any .NET Core 2.0 IWebHost i.e. a server that supports ASP.NET Core.
+DalSoft.Hosting.BackgroundQueue uses [IHostedService](https://blogs.msdn.microsoft.com/cesardelatorre/2017/11/18/implementing-background-tasks-in-microservices-with-ihostedservice-and-the-backgroundservice-class-net-core-2-x/) and works with any .NET Core 2.0 or higher IWebHost i.e. a server that supports ASP.NET Core.
 
-DalSoft.Hosting.BackgroundQueue also works with .NET Core's 2.1 lighter-weight [IHost](https://blogs.msdn.microsoft.com/cesardelatorre/2017/11/18/implementing-background-tasks-in-microservices-with-ihostedservice-and-the-backgroundservice-class-net-core-2-x/) - i.e. just services no ASP.NET Core, ideal for microservices.
+DalSoft.Hosting.BackgroundQueue also works with .NET Core's lighter-weight [IHost](https://blogs.msdn.microsoft.com/cesardelatorre/2017/11/18/implementing-background-tasks-in-microservices-with-ihostedservice-and-the-backgroundservice-class-net-core-2-x/) - i.e. just services no ASP.NET Core, ideal for microservices.
 
 ## Getting Started
 ```dos
@@ -34,7 +34,7 @@ public void ConfigureServices(IServiceCollection services)
       });
 }
 ```
-> This setups DalSoft.Hosting.BackgroundQueue using .NET Core's DI container. If your using a different DI container you need to register BackgroundQueue and BackgroundQueueService as singletons.
+> This setups DalSoft.Hosting.BackgroundQueue using .NET Core's DI container. If you're using a different DI container, you need to register IBackgroundQueue and BackgroundQueueService as singletons.
  
 **maxConcurrentCount (optional)**
 maxConcurrentCount is the number of Tasks allowed to run in the background concurrently. maxConcurrentCount defaults to 1.
@@ -49,10 +49,10 @@ You are running tasks in the background on a different thread you need to know w
 
 ## Queuing a Background Task
 
-To queue a background Task just add ```BackgroundQueue``` to your controller's constructor and call ```Enqueue```.
+To queue a background Task just add ```IBackgroundQueue``` to your controller's constructor and call ```Enqueue```.
 
 ```cs
-public EmailController(BackgroundQueue backgroundQueue)
+public EmailController(IBackgroundQueue backgroundQueue)
 {
    _backgroundQueue = backgroundQueue;
 }

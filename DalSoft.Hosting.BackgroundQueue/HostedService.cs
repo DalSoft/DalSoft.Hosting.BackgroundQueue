@@ -12,19 +12,19 @@ namespace DalSoft.Hosting.BackgroundQueue
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            // Create a linked token so we can trigger cancellation outside of this token's cancellation
+            // Create a linked token, so we can trigger cancellation outside of this token's cancellation
             _cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
 
             // Store the task we're executing
             _executingTask = ExecuteAsync(_cancellationTokenSource.Token);
 
-            // If the task is completed then return it, otherwise it's running
+            // If the task is completed, then return it, otherwise it's running
             return _executingTask.IsCompleted ? _executingTask : Task.CompletedTask;
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
-            // Stop called without start
+            // Stop called without a start
             if (_executingTask == null)
             {
                 return;
@@ -40,7 +40,7 @@ namespace DalSoft.Hosting.BackgroundQueue
             cancellationToken.ThrowIfCancellationRequested();
         }
 
-        // Derived classes should override this and execute a long running method until 
+        // Derived classes should override this and execute a long-running method until 
         // cancellation is requested
         protected abstract Task ExecuteAsync(CancellationToken cancellationToken);
     }
