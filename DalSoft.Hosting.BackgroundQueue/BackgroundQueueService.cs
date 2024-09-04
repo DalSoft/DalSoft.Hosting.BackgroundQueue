@@ -1,36 +1,35 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
-namespace DalSoft.Hosting.BackgroundQueue
+namespace DalSoft.Hosting.BackgroundQueue;
+
+public class BackgroundQueueService : BackgroundService
 {
-    public class BackgroundQueueService : HostedService
+    private readonly BackgroundQueue _backgroundQueue;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
+
+    public BackgroundQueueService(BackgroundQueue backgroundQueue, IServiceScopeFactory serviceScopeFactory)
     {
-        private readonly BackgroundQueue _backgroundQueue;
+        _backgroundQueue = backgroundQueue;
+        _serviceScopeFactory = serviceScopeFactory;
+    }
 
-        public BackgroundQueueService(BackgroundQueue backgroundQueue)
-        {
-            _backgroundQueue = backgroundQueue;
-        }
+    protected override async Task ExecuteAsync(CancellationToken serviceStopCancellationToken)
+    { 
+        using PeriodicTimer timer = new(TimeSpan.FromMilliseconds(_backgroundQueue.MillisecondsToWaitBeforePickingUpTask));
 
-        protected override Task ExecuteAsync(CancellationToken serviceStopCancellationToken)
+        while (!serviceStopCancellationToken.IsCancellationRequested && await timer.WaitForNextTickAsync(serviceStopCancellationToken))
         {
-            var timer = new System.Timers.Timer(_backgroundQueue.MillisecondsToWaitBeforePickingUpTask);
-            timer.Elapsed += (sender, args) =>
+            if (_backgroundQueue.ConcurrentCount < _backgroundQueue.MaxConcurrentCount)
             {
-                if (serviceStopCancellationToken.IsCancellationRequested)
-                {
-                    timer.Stop();
-                }
-
-                if (!serviceStopCancellationToken.IsCancellationRequested && _backgroundQueue.ConcurrentCount < _backgroundQueue.MaxConcurrentCount) 
-                {
-                    _backgroundQueue.Dequeue(serviceStopCancellationToken);
-                }
-            };
-            timer.AutoReset = true;
-            timer.Start();
-            
-            return Task.CompletedTask;
+                // ExecuteAsync is a long-running while the background service is running, so we can't use default dependency injection behaviour.
+                // To prevent open resources and instances - scope services per run */
+                // Create scope, so we get request services
+                _backgroundQueue.Dequeue(serviceStopCancellationToken, _serviceScopeFactory);
+            }
         }
     }
 }

@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <VersionPrefix>1.1.1</VersionPrefix>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <VersionPrefix>2.0.0</VersionPrefix>
+    <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>DalSoft.Hosting.BackgroundQueue</AssemblyName>
     <PackageId>DalSoft.Hosting.BackgroundQueue</PackageId>
     <Title>DalSoft.Hosting.BackgroundQueue - lightweight .NET Core replacement for HostingEnvironment.QueueBackgroundWorkItem</Title>
@@ -11,7 +11,7 @@
     <PackageTags>asp.net core webbackgrounder environment.queuebackgroundworkitem IHostedService IHost IWebHost</PackageTags>
     <Owners>DalSoft</Owners>
     <Authors>DalSoft, JonasBr68</Authors>
-    <PackageReleaseNotes>Made background queue service run on timer. Made backwards compatiable so Background or IBackground can be injected. Last version to support netstandard2.0</PackageReleaseNotes>
+    <PackageReleaseNotes>Targets net6.0 and above, with full Dependency Injection support with per queue item scope.</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -22,8 +22,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
     <None Include="Assets\icon.png" Pack="true" PackagePath="\"/>
     <None Include="Assets\LICENSE" Pack="true" PackagePath="\"/>
     <None Include="../README.md" Pack="true" PackagePath="\"/>
