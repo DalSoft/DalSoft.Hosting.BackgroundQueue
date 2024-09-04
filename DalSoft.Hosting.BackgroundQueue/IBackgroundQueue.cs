@@ -11,9 +11,7 @@ namespace DalSoft.Hosting.BackgroundQueue
         int MaxConcurrentCount { get; }
 
         int MillisecondsToWaitBeforePickingUpTask { get; }
-
-        Task Dequeue(CancellationToken cancellationToken);
-
+        
         void Enqueue(Func<CancellationToken, Task> task);
     }
 }

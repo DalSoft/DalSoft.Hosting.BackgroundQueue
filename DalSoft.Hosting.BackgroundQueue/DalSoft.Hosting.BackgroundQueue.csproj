@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <VersionPrefix>1.1.0</VersionPrefix>
+    <VersionPrefix>1.1.1</VersionPrefix>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>DalSoft.Hosting.BackgroundQueue</AssemblyName>
     <PackageId>DalSoft.Hosting.BackgroundQueue</PackageId>
@@ -11,7 +11,7 @@
     <PackageTags>asp.net core webbackgrounder environment.queuebackgroundworkitem IHostedService IHost IWebHost</PackageTags>
     <Owners>DalSoft</Owners>
     <Authors>DalSoft, JonasBr68</Authors>
-    <PackageReleaseNotes>Added fix to run more than one task concurrently.</PackageReleaseNotes>
+    <PackageReleaseNotes>Made background queue service run on timer. Made backwards compatiable so Background or IBackground can be injected. Last version to support netstandard2.0</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>

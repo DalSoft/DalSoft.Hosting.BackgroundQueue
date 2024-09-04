@@ -34,7 +34,7 @@ namespace DalSoft.Hosting.BackgroundQueue
             _taskQueue.Enqueue(task);
         }
 
-        public async Task Dequeue(CancellationToken cancellationToken)
+        internal async Task Dequeue(CancellationToken cancellationToken)
         {
             if (_taskQueue.TryDequeue(out var nextTaskAction))
             {

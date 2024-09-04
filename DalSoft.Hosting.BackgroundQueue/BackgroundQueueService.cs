@@ -1,36 +1,36 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 namespace DalSoft.Hosting.BackgroundQueue
 {
     public class BackgroundQueueService : HostedService
     {
-        private readonly IBackgroundQueue _backgroundQueue;
+        private readonly BackgroundQueue _backgroundQueue;
 
-        public BackgroundQueueService(IBackgroundQueue backgroundQueue)
+        public BackgroundQueueService(BackgroundQueue backgroundQueue)
         {
             _backgroundQueue = backgroundQueue;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken cancellationToken)
+        protected override Task ExecuteAsync(CancellationToken serviceStopCancellationToken)
         {
-            while (!cancellationToken.IsCancellationRequested)
+            var timer = new System.Timers.Timer(_backgroundQueue.MillisecondsToWaitBeforePickingUpTask);
+            timer.Elapsed += (sender, args) =>
             {
-                if (_backgroundQueue.Count == 0 || _backgroundQueue.ConcurrentCount > _backgroundQueue.MaxConcurrentCount)
+                if (serviceStopCancellationToken.IsCancellationRequested)
                 {
-                    await Task.Delay(_backgroundQueue.MillisecondsToWaitBeforePickingUpTask, cancellationToken);
+                    timer.Stop();
                 }
-                else
+
+                if (!serviceStopCancellationToken.IsCancellationRequested && _backgroundQueue.ConcurrentCount < _backgroundQueue.MaxConcurrentCount) 
                 {
-                    var concurrentTasks = new List<Task>();
-                    while (_backgroundQueue.Count > 0 && _backgroundQueue.ConcurrentCount <= _backgroundQueue.MaxConcurrentCount)
-                    {
-                        concurrentTasks.Add(_backgroundQueue.Dequeue(cancellationToken));
-                    }
-                    await Task.WhenAll(concurrentTasks);
+                    _backgroundQueue.Dequeue(serviceStopCancellationToken);
                 }
-            }
+            };
+            timer.AutoReset = true;
+            timer.Start();
+            
+            return Task.CompletedTask;
         }
     }
 }
