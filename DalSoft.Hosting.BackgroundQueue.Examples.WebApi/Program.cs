@@ -12,11 +12,15 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<PersonDbContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString(nameof(PersonDbContext))));
 
-builder.Services.AddBackgroundQueue((exception, serviceScope) =>
-{
-    serviceScope.ServiceProvider.GetRequiredService<ILogger<Program>>()
-        .Log(LogLevel.Error, exception, exception.Message);
-}, maxConcurrentCount: 10);
+builder.Services.AddBackgroundQueue
+(
+    onException: (exception, serviceScope) => 
+    { 
+        serviceScope.ServiceProvider.GetRequiredService<ILogger<Program>>()
+        .Log(LogLevel.Error, exception, exception.Message); 
+    }, 
+    maxConcurrentCount: 10
+);
 
 var app = builder.Build();
 

@@ -1,24 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <VersionPrefix>2.0.0</VersionPrefix>
+    <VersionPrefix>2.0.1</VersionPrefix>
     <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>DalSoft.Hosting.BackgroundQueue</AssemblyName>
     <PackageId>DalSoft.Hosting.BackgroundQueue</PackageId>
     <Title>DalSoft.Hosting.BackgroundQueue - lightweight .NET Core replacement for HostingEnvironment.QueueBackgroundWorkItem</Title>
     <Description>DalSoft.Hosting.BackgroundQueue is a very lightweight .NET Core replacement for HostingEnvironment.QueueBackgroundWorkItem using IHostedService</Description>
     <Copyright>DalSoft Ltd</Copyright>
-    <PackageTags>asp.net core webbackgrounder environment.queuebackgroundworkitem IHostedService IHost IWebHost</PackageTags>
+    <PackageTags>asp.net core webbackgrounder environment.queuebackgroundworkitem IHostedService IHost IWebHost background</PackageTags>
     <Owners>DalSoft</Owners>
-    <Authors>DalSoft, JonasBr68</Authors>
-    <PackageReleaseNotes>Targets net6.0 and above, with full Dependency Injection support with per queue item scope.</PackageReleaseNotes>
+    <Authors>DalSoft</Authors>
+    <PackageReleaseNotes>Reduced millisecondsToWaitBeforePickingUpTask to 10 milliseconds. Better handling if CreateAsyncScope ever fails.</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/DalSoft/DalSoft.Hosting.BackgroundQueue</PackageProjectUrl>
     <RepositoryUrl>https://github.com/DalSoft/DalSoft.Hosting.BackgroundQueue</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,9 +27,8 @@
     <None Include="Assets\icon.png" Pack="true" PackagePath="\"/>
     <None Include="Assets\LICENSE" Pack="true" PackagePath="\"/>
     <None Include="../README.md" Pack="true" PackagePath="\"/>
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-      <_Parameter1>DalSoft.Hosting.BackgroundQueue.Test</_Parameter1>
-    </AssemblyAttribute>
   </ItemGroup>
-  
+  <ItemGroup>
+    <InternalsVisibleTo Include="DalSoft.Hosting.BackgroundQueue.Test" />
+  </ItemGroup>
 </Project>

@@ -5,7 +5,7 @@ namespace DalSoft.Hosting.BackgroundQueue.Extensions.DependencyInjection
 {
     public static class Extensions
     {
-        public static void AddBackgroundQueue(this IServiceCollection services, Action<Exception, AsyncServiceScope> onException, int maxConcurrentCount = 1, int millisecondsToWaitBeforePickingUpTask = 1000)
+        public static void AddBackgroundQueue(this IServiceCollection services, Action<Exception, AsyncServiceScope> onException, int maxConcurrentCount = 1, int millisecondsToWaitBeforePickingUpTask = 10)
         {
             services.AddSingleton(new BackgroundQueue(onException, maxConcurrentCount, millisecondsToWaitBeforePickingUpTask));
             services.AddSingleton<IBackgroundQueue>(provider => provider.GetService<BackgroundQueue>());
@@ -19,7 +19,7 @@ namespace DalSoft.Hosting.BackgroundQueue.DependencyInjection
 {
     public static class Extensions
     {
-        public static void AddBackgroundQueue(this IServiceCollection services, Action<Exception> onException, int maxConcurrentCount = 1, int millisecondsToWaitBeforePickingUpTask = 1000)
+        public static void AddBackgroundQueue(this IServiceCollection services, Action<Exception> onException, int maxConcurrentCount = 1, int millisecondsToWaitBeforePickingUpTask = 10)
         {
             // keep usage backwards compatible with < DalSoft.Hosting.BackgroundQueue v2.0.0
             services.AddSingleton(new BackgroundQueue((exception, _) => onException(exception), maxConcurrentCount, millisecondsToWaitBeforePickingUpTask));
