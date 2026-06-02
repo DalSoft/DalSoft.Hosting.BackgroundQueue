@@ -1,17 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <VersionPrefix>2.0.1</VersionPrefix>
-    <TargetFramework>net6.0</TargetFramework>
+    <VersionPrefix>2.1.0</VersionPrefix>
+    <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
     <AssemblyName>DalSoft.Hosting.BackgroundQueue</AssemblyName>
     <PackageId>DalSoft.Hosting.BackgroundQueue</PackageId>
-    <Title>DalSoft.Hosting.BackgroundQueue - lightweight .NET Core replacement for HostingEnvironment.QueueBackgroundWorkItem</Title>
-    <Description>DalSoft.Hosting.BackgroundQueue is a very lightweight .NET Core replacement for HostingEnvironment.QueueBackgroundWorkItem using IHostedService</Description>
+    <Title>DalSoft.Hosting.BackgroundQueue - lightweight Hangfire alternative: background queue + dynamic cron scheduler</Title>
+    <Description>A very lightweight .NET background-jobs library: an in-memory background task queue (a replacement for HostingEnvironment.QueueBackgroundWorkItem) plus a dynamic cron scheduler you can add, reschedule and remove jobs on at runtime - no restart. Per-job DI scope, optional bring-your-own durable store. A focused, low-dependency alternative to Hangfire for in-memory, single-instance scheduling and queuing.</Description>
     <Copyright>DalSoft Ltd</Copyright>
-    <PackageTags>asp.net core webbackgrounder environment.queuebackgroundworkitem IHostedService IHost IWebHost background</PackageTags>
+    <PackageTags>asp.net core background queue scheduler cron recurring jobs hangfire IHostedService BackgroundService environment.queuebackgroundworkitem webbackgrounder</PackageTags>
     <Owners>DalSoft</Owners>
     <Authors>DalSoft</Authors>
-    <PackageReleaseNotes>Reduced millisecondsToWaitBeforePickingUpTask to 10 milliseconds. Better handling if CreateAsyncScope ever fails.</PackageReleaseNotes>
+    <PackageReleaseNotes>Added a dynamic cron scheduler (AddBackgroundJobs / IJobScheduler) with add, reschedule and remove at runtime, per-job DI scope, and a pluggable IScheduleStore for durable schedules. The scheduler ticks in-memory and never polls the store. Fully backwards compatible: the existing queue API is unchanged. Also hardened graceful shutdown so in-flight queue tasks drain instead of being abandoned. Now multi-targets net6.0 and net8.0.</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -22,12 +22,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Cronos" Version="0.13.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <None Include="Assets\icon.png" Pack="true" PackagePath="\"/>
     <None Include="Assets\LICENSE" Pack="true" PackagePath="\"/>
     <None Include="../README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="PublicAPI.Shipped.txt" />
+    <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
+  </ItemGroup>
+
   <ItemGroup>
     <InternalsVisibleTo Include="DalSoft.Hosting.BackgroundQueue.Test" />
   </ItemGroup>
