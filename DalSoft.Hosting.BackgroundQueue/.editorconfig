@@ -1,0 +1,15 @@
+# Public API analyzer rules for the packaged library.
+# The PublicAPI.Shipped.txt / PublicAPI.Unshipped.txt files are the source of truth for the public surface,
+# so an accidental change to an existing public API fails the build instead of slipping into a release.
+[*.cs]
+
+# Hard-enforce backwards compatibility: these break the build if the public surface drifts from the API files.
+dotnet_diagnostic.RS0016.severity = error   # a public/protected member isn't declared in the API files
+dotnet_diagnostic.RS0017.severity = error   # the API files list a member that no longer exists
+dotnet_diagnostic.RS0024.severity = error   # a member was removed from the shipped (released) API
+dotnet_diagnostic.RS0025.severity = error   # a member is duplicated in the API files
+
+# Intentional design choices - silenced on purpose:
+dotnet_diagnostic.RS0041.severity = none    # legacy v2.0.x signatures are non-nullable (oblivious) by design
+dotnet_diagnostic.RS0026.severity = none    # the new ScheduleAsync overloads with optional params are deliberate
+dotnet_diagnostic.RS0027.severity = none    # ditto - overload-with-most-parameters guidance not applicable here
