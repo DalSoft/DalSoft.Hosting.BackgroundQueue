@@ -157,6 +157,8 @@ builder.Services.AddBackgroundJobs();
 
 **The scheduler never polls your database.** The store is read once at startup, written through only when a schedule is added/changed/removed, and otherwise the per-second tick runs entirely against the in-memory schedule. This is deliberate so a pay-per-use / serverless database (e.g. serverless Azure SQL) is never hit while the app is idle. If another process changes schedules directly in the store, call `IJobScheduler.ReloadFromStoreAsync()` to pick them up - ideally from inside a scheduled "sync" job, so even that read happens on your terms.
 
+A complete, drop-in **EF Core / SQL Server `IScheduleStore`** plus runtime add/reschedule/remove endpoints can be found in the [example WebApi](https://github.com/DalSoft/DalSoft.Hosting.BackgroundQueue/tree/master/DalSoft.Hosting.BackgroundQueue.Examples.WebApi) (`Scheduling/EfCoreScheduleStore.cs`). Note it's resolved via `IDbContextFactory<T>` because the store is a singleton and must not capture a scoped `DbContext`.
+
 ### How this compares to Hangfire
 
 This is a *lightweight* alternative, not a replacement for everything Hangfire does. Reach for it when you want in-memory, single-instance scheduling/queuing with minimal dependencies and runtime-editable schedules. Hangfire is the better choice when you need built-in durable storage, automatic retries, a dashboard, or distributed processing across many servers - none of which this library provides out of the box (persistence is bring-your-own, and there's no retry/dashboard/clustering).
