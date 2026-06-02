@@ -1,0 +1,23 @@
+#nullable enable
+DalSoft.Hosting.BackgroundQueue.BackgroundQueue
+DalSoft.Hosting.BackgroundQueue.BackgroundQueue.ConcurrentCount.get -> int
+DalSoft.Hosting.BackgroundQueue.BackgroundQueue.Count.get -> int
+DalSoft.Hosting.BackgroundQueue.BackgroundQueue.MaxConcurrentCount.get -> int
+DalSoft.Hosting.BackgroundQueue.BackgroundQueue.MillisecondsToWaitBeforePickingUpTask.get -> int
+DalSoft.Hosting.BackgroundQueue.BackgroundQueueService
+DalSoft.Hosting.BackgroundQueue.DependencyInjection.Extensions
+DalSoft.Hosting.BackgroundQueue.Extensions.DependencyInjection.Extensions
+DalSoft.Hosting.BackgroundQueue.IBackgroundQueue
+DalSoft.Hosting.BackgroundQueue.IBackgroundQueue.ConcurrentCount.get -> int
+DalSoft.Hosting.BackgroundQueue.IBackgroundQueue.Count.get -> int
+DalSoft.Hosting.BackgroundQueue.IBackgroundQueue.MaxConcurrentCount.get -> int
+DalSoft.Hosting.BackgroundQueue.IBackgroundQueue.MillisecondsToWaitBeforePickingUpTask.get -> int
+~DalSoft.Hosting.BackgroundQueue.BackgroundQueue.BackgroundQueue(System.Action<System.Exception, Microsoft.Extensions.DependencyInjection.AsyncServiceScope> onException, int maxConcurrentCount, int millisecondsToWaitBeforePickingUpTask) -> void
+~DalSoft.Hosting.BackgroundQueue.BackgroundQueue.Enqueue(System.Func<System.Threading.CancellationToken, Microsoft.Extensions.DependencyInjection.AsyncServiceScope, System.Threading.Tasks.Task> task) -> void
+~DalSoft.Hosting.BackgroundQueue.BackgroundQueue.Enqueue(System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task> task) -> void
+~DalSoft.Hosting.BackgroundQueue.BackgroundQueueService.BackgroundQueueService(DalSoft.Hosting.BackgroundQueue.BackgroundQueue backgroundQueue, Microsoft.Extensions.DependencyInjection.IServiceScopeFactory serviceScopeFactory) -> void
+~DalSoft.Hosting.BackgroundQueue.IBackgroundQueue.Enqueue(System.Func<System.Threading.CancellationToken, Microsoft.Extensions.DependencyInjection.AsyncServiceScope, System.Threading.Tasks.Task> task) -> void
+~DalSoft.Hosting.BackgroundQueue.IBackgroundQueue.Enqueue(System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task> task) -> void
+~override DalSoft.Hosting.BackgroundQueue.BackgroundQueueService.ExecuteAsync(System.Threading.CancellationToken serviceStopCancellationToken) -> System.Threading.Tasks.Task
+~static DalSoft.Hosting.BackgroundQueue.DependencyInjection.Extensions.AddBackgroundQueue(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, System.Action<System.Exception> onException, int maxConcurrentCount = 1, int millisecondsToWaitBeforePickingUpTask = 10) -> void
+~static DalSoft.Hosting.BackgroundQueue.Extensions.DependencyInjection.Extensions.AddBackgroundQueue(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, System.Action<System.Exception, Microsoft.Extensions.DependencyInjection.AsyncServiceScope> onException, int maxConcurrentCount = 1, int millisecondsToWaitBeforePickingUpTask = 10) -> void
