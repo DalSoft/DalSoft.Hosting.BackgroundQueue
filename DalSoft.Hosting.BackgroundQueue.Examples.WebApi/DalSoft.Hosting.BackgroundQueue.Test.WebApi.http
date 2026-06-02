@@ -1,6 +1,25 @@
 @DalSoft.Hosting.BackgroundQueue.Test.WebApi_HostAddress = http://localhost:5184
 
-GET {{DalSoft.Hosting.BackgroundQueue.Test.WebApi_HostAddress}}/weatherforecast/
+### Queue 20 background tasks
+POST {{DalSoft.Hosting.BackgroundQueue.Test.WebApi_HostAddress}}/backgroundtasks
+
+### Get queue counts (Count / ConcurrentCount)
+GET {{DalSoft.Hosting.BackgroundQueue.Test.WebApi_HostAddress}}/backgroundtasks
 Accept: application/json
+
+### --- Scheduler ---
+
+### List the currently scheduled jobs (in-memory snapshot, no DB hit)
+GET {{DalSoft.Hosting.BackgroundQueue.Test.WebApi_HostAddress}}/schedules
+Accept: application/json
+
+### Add a schedule: add a random Person every 10 seconds (6-field cron, spaces URL-encoded)
+POST {{DalSoft.Hosting.BackgroundQueue.Test.WebApi_HostAddress}}/schedules/add-person?cron=*/10%20*%20*%20*%20*%20*
+
+### Reschedule to every 30 seconds - takes effect on the next tick, no restart
+PUT {{DalSoft.Hosting.BackgroundQueue.Test.WebApi_HostAddress}}/schedules/add-person?cron=*/30%20*%20*%20*%20*%20*
+
+### Remove the schedule - takes effect on the next tick, no restart
+DELETE {{DalSoft.Hosting.BackgroundQueue.Test.WebApi_HostAddress}}/schedules/add-person
 
 ###
