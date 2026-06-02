@@ -1,0 +1,56 @@
+#nullable enable
+DalSoft.Hosting.BackgroundQueue.Extensions.DependencyInjection.BackgroundJobsServiceCollectionExtensions
+DalSoft.Hosting.BackgroundQueue.Scheduling.BackgroundJobsOptions
+DalSoft.Hosting.BackgroundQueue.Scheduling.BackgroundJobsOptions.BackgroundJobsOptions() -> void
+DalSoft.Hosting.BackgroundQueue.Scheduling.BackgroundJobsOptions.OnException.get -> System.Action<System.Exception!, string!>?
+DalSoft.Hosting.BackgroundQueue.Scheduling.BackgroundJobsOptions.OnException.set -> void
+DalSoft.Hosting.BackgroundQueue.Scheduling.BackgroundJobsOptions.TickInterval.get -> System.TimeSpan
+DalSoft.Hosting.BackgroundQueue.Scheduling.BackgroundJobsOptions.TickInterval.set -> void
+DalSoft.Hosting.BackgroundQueue.Scheduling.IInvocable
+DalSoft.Hosting.BackgroundQueue.Scheduling.IInvocable.Invoke() -> System.Threading.Tasks.Task!
+DalSoft.Hosting.BackgroundQueue.Scheduling.IInvocableWithPayload
+DalSoft.Hosting.BackgroundQueue.Scheduling.IInvocableWithPayload.Payload.get -> string?
+DalSoft.Hosting.BackgroundQueue.Scheduling.IInvocableWithPayload.Payload.set -> void
+DalSoft.Hosting.BackgroundQueue.Scheduling.IJobScheduler
+DalSoft.Hosting.BackgroundQueue.Scheduling.IJobScheduler.Exists(string! key) -> bool
+DalSoft.Hosting.BackgroundQueue.Scheduling.IJobScheduler.List() -> System.Collections.Generic.IReadOnlyCollection<DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduledJobInfo!>!
+DalSoft.Hosting.BackgroundQueue.Scheduling.IJobScheduler.ReloadFromStoreAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+DalSoft.Hosting.BackgroundQueue.Scheduling.IJobScheduler.RemoveAsync(string! key, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<bool>!
+DalSoft.Hosting.BackgroundQueue.Scheduling.IJobScheduler.RescheduleAsync(string! key, string! cronExpression, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+DalSoft.Hosting.BackgroundQueue.Scheduling.IJobScheduler.ScheduleAsync(string! key, string! cronExpression, System.Type! invocableType, string? payload = null, string? timeZoneId = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+DalSoft.Hosting.BackgroundQueue.Scheduling.IJobScheduler.ScheduleAsync<TInvocable>(string! key, string! cronExpression, string? payload = null, string? timeZoneId = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+DalSoft.Hosting.BackgroundQueue.Scheduling.IScheduleStore
+DalSoft.Hosting.BackgroundQueue.Scheduling.IScheduleStore.LoadAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyCollection<DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduleDefinition!>!>!
+DalSoft.Hosting.BackgroundQueue.Scheduling.IScheduleStore.RemoveAsync(string! key, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+DalSoft.Hosting.BackgroundQueue.Scheduling.IScheduleStore.UpsertAsync(DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduleDefinition! definition, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+DalSoft.Hosting.BackgroundQueue.Scheduling.ISystemClock
+DalSoft.Hosting.BackgroundQueue.Scheduling.ISystemClock.UtcNow.get -> System.DateTime
+DalSoft.Hosting.BackgroundQueue.Scheduling.InMemoryScheduleStore
+DalSoft.Hosting.BackgroundQueue.Scheduling.InMemoryScheduleStore.InMemoryScheduleStore() -> void
+DalSoft.Hosting.BackgroundQueue.Scheduling.InMemoryScheduleStore.LoadAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyCollection<DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduleDefinition!>!>!
+DalSoft.Hosting.BackgroundQueue.Scheduling.InMemoryScheduleStore.RemoveAsync(string! key, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+DalSoft.Hosting.BackgroundQueue.Scheduling.InMemoryScheduleStore.UpsertAsync(DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduleDefinition! definition, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduleDefinition
+DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduleDefinition.CronExpression.get -> string!
+DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduleDefinition.CronExpression.init -> void
+DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduleDefinition.InvocableType.get -> string!
+DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduleDefinition.InvocableType.init -> void
+DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduleDefinition.Key.get -> string!
+DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduleDefinition.Key.init -> void
+DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduleDefinition.Payload.get -> string?
+DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduleDefinition.Payload.init -> void
+DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduleDefinition.TimeZoneId.get -> string?
+DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduleDefinition.TimeZoneId.init -> void
+DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduledJobInfo
+DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduledJobInfo.CronExpression.get -> string!
+DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduledJobInfo.CronExpression.init -> void
+DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduledJobInfo.InvocableType.get -> string!
+DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduledJobInfo.InvocableType.init -> void
+DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduledJobInfo.IsRunning.get -> bool
+DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduledJobInfo.IsRunning.init -> void
+DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduledJobInfo.Key.get -> string!
+DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduledJobInfo.Key.init -> void
+DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduledJobInfo.NextRunUtc.get -> System.DateTime
+DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduledJobInfo.NextRunUtc.init -> void
+DalSoft.Hosting.BackgroundQueue.Scheduling.ScheduledJobInfo.ScheduledJobInfo(string! Key, string! CronExpression, string! InvocableType, System.DateTime NextRunUtc, bool IsRunning) -> void
+static DalSoft.Hosting.BackgroundQueue.Extensions.DependencyInjection.BackgroundJobsServiceCollectionExtensions.AddBackgroundJobs(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services, System.Action<DalSoft.Hosting.BackgroundQueue.Scheduling.BackgroundJobsOptions!>? configure = null) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
